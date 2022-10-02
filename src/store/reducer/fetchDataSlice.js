@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import storesApi from "../../api/storesApi";
 
 
-const BASEURL = "https://jsonplaceholder.typicode.com";
+
 
 
 
