@@ -18,7 +18,7 @@ import {
   cleanPostData,
   failedFetchPostData,
 } from "../store/reducer/fetchDataSlice";
-import useLocation from "../hooks/useLocation";
+
 
 const { width, height } = Dimensions.get("window");
 const CARD_HEIGHT = height / 3;
