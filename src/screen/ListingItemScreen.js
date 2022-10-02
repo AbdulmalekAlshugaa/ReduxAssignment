@@ -12,25 +12,30 @@ export default function ListingItemScreen() {
     const posts = useSelector((state) => state.posts.postsList);
     const status = useSelector((state) => state.posts.status);
     const error = useSelector((state) => state.posts.error);
+   
+         
 
+     const firstElement = posts[5];
 
-    console.log("posts", posts);
 
     const fetchData = () => {
-        dispatch(fetchPosts());
+        if (status === "idle") {
+          dispatch(fetchPosts());
+        }
+ 
     };
    
 
     useEffect(() => {
-        animateToRegion();
+        
         fetchData();
     }, []);
 
 
     const animateToRegion = () => {
         mapRef.current.animateToRegion({
-            latitude: 37.78825,
-            longitude: -122.4324,
+            latitude: firstElement.storeLocation.lat,
+            longitude: firstElement.storeLocation.lng,
             latitudeDelta: 0.0922,
             longitudeDelta: 0.0421,
         });
@@ -41,34 +46,40 @@ export default function ListingItemScreen() {
 
   return (
     <View style={styles.container}>
-  <MapView
+        {status === "success" ? ( <MapView
   style={styles.map}
   initialRegion={{
-      latitude: 37.78825,
-      longitude: -122.4324,
+    latitude: firstElement.storeLocation.lat,
+    longitude: firstElement.storeLocation.lng,
       latitudeDelta: 0.0922,
       longitudeDelta: 0.0421,
       }}
-      
+      loadingEnabled={true}
       userLocationCalloutEnabled={true}
       provider="google"
       scrollEnabled={true}
       rotateEnabled={true}
       showsUserLocation={true}
       showsTraffic={true}
+      zoomEnabled={true}
       showsMyLocationButton={true}
       ref={mapRef}
   >
-    <MarkerAnimated
+  
+        
+ <MarkerAnimated
+    key={0}
     coordinate={{
-        latitude: 37.78825,
-        longitude: -122.4324,
+        latitude:15.327471275674935,
+        longitude: 44.19993475096826,
         latitudeDelta: 0.0922,
         longitudeDelta: 0.0421,
     }}
     title="My Marker"
     description="Some description"
     />
+  
+   
 
     <Callout
     tooltip={true}
@@ -78,7 +89,8 @@ export default function ListingItemScreen() {
     
     />
 
-  </MapView>
+  </MapView>) : null}
+ 
     <StatusBar style="auto" />
   </View>
   )

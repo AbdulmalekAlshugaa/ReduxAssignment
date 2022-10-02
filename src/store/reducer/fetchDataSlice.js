@@ -1,4 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import storesApi from "../../api/storesApi";
 
 
 const BASEURL = "https://jsonplaceholder.typicode.com";
@@ -14,9 +15,12 @@ const initialState = {
 export const fetchPosts = createAsyncThunk(
   "posts/fetchPosts",
   async () => {
-    const response = await fetch(`${BASEURL}/posts`);
+    console.log("fetchPosts");
+    const response = await storesApi.getAllStores({ page: 1 });
+
+
     if (response.ok) {
-      const posts = await response.json();
+      const posts = await response.data.result
       return { posts };
     } else {
       return Promise.reject(response);

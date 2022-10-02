@@ -4,7 +4,7 @@ const settings = {
       apiUrl: 'https://jsonplaceholder.typicode.com',
     },
     prod: {
-      apiUrl: 'https://jsonplaceholder.typicode.com',
+      apiUrl: 'https://delivery-app-june.herokuapp.com/api/v1',
   
     },
   };
@@ -12,7 +12,7 @@ const settings = {
   const getCurrentSettings = () => {
     //   if (__DEV__) return settings.dev;
     //   if (Constants.manifest.releaseChannel === "staging") return settings.staging;
-    return settings.dev;
+    return settings.prod;
   };
   
   export default getCurrentSettings();
