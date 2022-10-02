@@ -5,12 +5,25 @@ const BASEURL = "https://jsonplaceholder.typicode.com";
 
 
 
-
 const initialState = {
   postsList: [],
   status: "idle",
   error: null,
 };
+
+export const fetchPosts = createAsyncThunk(
+  "posts/fetchPosts",
+  async () => {
+    const response = await fetch(`${BASEURL}/posts`);
+    if (response.ok) {
+      const posts = await response.json();
+      return { posts };
+    } else {
+      return Promise.reject(response);
+    }
+  }
+);
+
 
 export const fetchDataSlice = createSlice({
   name: "posts",
@@ -22,7 +35,7 @@ export const fetchDataSlice = createSlice({
       // which detects changes to a "draft state" and produces a brand new
       // immutable state based off those changes
       state.status = "loading";
-      state.postsList = actions.payload;
+      state.postsList = state.postsList.concat(actions.payload);
       state.status = "success";
     },
     cleanPostData: (state) => {
@@ -30,15 +43,30 @@ export const fetchDataSlice = createSlice({
     },
     failedFetchPostData: (state, actions) => {
       state.status = "loading";
-      state.error = actions.payload;
+      state.error =  state.postsList.concat(actions.payload);
       state.status = "failed";
     },
+    
     // Use the PayloadAction type to declare the contents of `action.payload`
+  },
+  extraReducers(builder) {
+    builder
+      .addCase(fetchPosts.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(fetchPosts.fulfilled, (state, action) => {
+        state.status = "success";
+        // Add any fetched posts to the array
+        state.postsList = state.postsList.concat(action.payload.posts);
+      })
+      .addCase(fetchPosts.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.error.message;
+      });
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { successFetchPostData, cleanPostData, failedFetchPostData } =
-  fetchDataSlice.actions;
+export const { successFetchPostData, cleanPostData, failedFetchPostData } = fetchDataSlice.actions;
 
 export default fetchDataSlice.reducer;
