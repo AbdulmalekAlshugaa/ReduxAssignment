@@ -1,4 +1,10 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+
+
+const BASEURL = "https://jsonplaceholder.typicode.com";
+
+
+
 
 const initialState = {
   postsList: [],
@@ -7,7 +13,7 @@ const initialState = {
 };
 
 export const fetchDataSlice = createSlice({
-  name: "counter",
+  name: "posts",
   initialState,
   reducers: {
     successFetchPostData: (state, actions) => {
