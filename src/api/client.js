@@ -1,7 +1,6 @@
 import { create } from "apisauce";
 import settings from '../config/setting';
 
-
 const headers = {
   'Cache-Control': 'no-cache',
   'Content-Type': 'application/json',
@@ -13,17 +12,6 @@ const apiClient = create({
   headers: headers,
   timeout: 60000,
 });
-
-
-
-
-
-
-// remove unnecessary code 
-
-//   const data = await cache.get(url);
-//   return data ? { ok: true, data } : response;
-// };
 
 export default {
   apiClient,
